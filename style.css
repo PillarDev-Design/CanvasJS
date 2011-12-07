@@ -1,0 +1,9 @@
+#mini_map_container {
+    
+}
+canvas#mini_map {
+    position:absolute;
+}
+canvas#mini_map_objects {
+    position:absolute;
+}
