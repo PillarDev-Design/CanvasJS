@@ -14,12 +14,21 @@ var dc = function(id) {
     return document.createElement(tag);
 };
 
-// Map Variables
+// Global Map Variables
 var mapWidth = 0;
 var mapHeight = 0;
 var miniMapScale = 8;
 
-// Player Variables
+var screenWidth = 320;
+var stripWidth = 4;
+var fov = 60 * Math.PI / 180;
+var numRays = Math.ceil(screenWidth / stripWidth);
+var fovHalf = fov / 2;
+var viewDist = (screenWidth / 2) / Math.tan((fov / 2));
+var twoPI = Math.PI * 2;
+
+
+// Global Player Variables
 var player = {
     // Set player x,y
     x : 16,
@@ -35,7 +44,7 @@ var player = {
     // How far (in map units) does the player move while in motion
     moveSpeed : 0.18,
     // How much does the player rotate?
-    rotSpeed : 6
+    rotSpeed : 6 * Math.PI / 180
 }
 
 // ********************************************************
