@@ -150,6 +150,9 @@ function drawMiniMap() {
     // Set canvas context to 2d
     var ctx = mini_map.getContext("2d");
 
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, mini_map.width, mini_map.height);
+
     // Loop through all the blocks on the map
     for (var y=0; y<mapHeight; y++) {
         for (var x=0; x<mapWidth; x++) {
@@ -232,15 +235,17 @@ function updateMiniMap () {
 
     // Set 2d canvas context
     var objectCtx = mini_map_objects.getContext("2d");
-    objectCtx.clearRect(0, 0, mini_map.width, mini_map.height);
+    mini_map_objects.width = mini_map_objects.width;
 
     // Draw a dot at the current pos of player
+    objectCtx.fillStyle = "red";
     objectCtx.fillRect(
         player.x * miniMapScale - 2,
         player.y * miniMapScale -2,
         4, 4
     );
 
+    objectCtx.strokeStyle = "red";
     objectCtx.beginPath();
     objectCtx.moveTo(player.x * miniMapScale, player.y * miniMapScale);
     objectCtx.lineTo(
