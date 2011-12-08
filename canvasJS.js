@@ -175,8 +175,11 @@ function drawMiniMap() {
 // ********************************************************
 function gameCycle() {
     move();
+
     updateMiniMap();
-    // 30 fps
+    
+    castRays();
+
     setTimeout(gameCycle, 1000/30); 
 };
 
@@ -216,7 +219,7 @@ function isBlocking(x,y) {
 
     // Return true if the map block is NOT 0.
     return (map_one[Math.floor(y)][Math.floor(x)] !== 0);
-}
+};
 
 // ********************************************************
 // updateMiniMap()
@@ -246,7 +249,36 @@ function updateMiniMap () {
     );
     objectCtx.closePath();
     objectCtx.stroke();
-}
+};
+
+// ********************************************************
+// castRays()
+// Called: gameCycle()
+// ********************************************************
+function castRays() {
+    var stripIdx = 0;
+    
+    for (var i=0; i<numRays; i++) {
+        // Determine position of ray
+        var rayScreenPos = (-numRays/2 + i) * stripWidth;
+
+        // Distance from viewer to point
+        var rayViewDist = Math.sqrt(
+            (rayScreenPos * rayScreenPos) +
+            (viewDist * viewDist)
+            );
+
+        // Angle of ray, relative to viewing direction.
+        // a = sin(A) * c
+        var rayAngle = Math.asin(rayScreenPos / rayViewDist);
+
+        // Call castSingleRay()
+        castSingleRay(
+            player.rot + rayAngle,
+            stripIdx++;
+        );
+    }
+};
 
 // Set delay on init function
 setTimeout(init, 1);
