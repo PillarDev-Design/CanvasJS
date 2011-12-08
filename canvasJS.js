@@ -44,7 +44,7 @@ var player = {
     // How far (in map units) does the player move while in motion
     moveSpeed : 0.18,
     // How much does the player rotate?
-    rotSpeed : 6 * Math.PI / 180
+    rotSpeed : 6
 }
 
 // ********************************************************
@@ -280,7 +280,7 @@ function castRays() {
         // Call castSingleRay()
         castSingleRay(
             player.rot + rayAngle,
-            stripIdx++;
+            stripIdx++
         );
     }
 };
@@ -324,7 +324,7 @@ function castSingleRay(rayAngle, stripIdx) {
         var wallX = Math.floor(x + (right ? 0 : -1));
         var wallY = Math.floor(y);
 
-        if (map[wallY][wallX] > 0) {
+        if (map_one[wallY][wallX] > 0) {
             var distX = x - player.x;
             var distY = y - player.y;
             dist = (distX * distX) + (distY * distY);
@@ -356,7 +356,7 @@ function castSingleRay(rayAngle, stripIdx) {
         var wallY = Math.floor(y + (up ? -1 : 0));
         var wallX = Math.floor(x);
 
-        if (map[wallY][wallX] > 0) {
+        if (map_one[wallY][wallX] > 0) {
             var distX = x - player.x;
             var distY = y - player.y;
             var blockDist = (distX * distX) + (distY * distY);
