@@ -280,5 +280,101 @@ function castRays() {
     }
 };
 
+// ********************************************************
+// castSingleRay()
+// Called: castRays()
+// ********************************************************
+function castSingleRay(rayAngle, stripIdx) {
+    // Check to see if the angle is between 0 and 360 degrees.
+    rayAngle %= twoPI;
+    if (rayAngle < 0) {
+        rayAngle += twoPI;
+    }
+    
+    // Check quadrant to determine direction
+    var right = (rayAngle > twoPI * 0.75 || rayAngle < twoPI * 0.25);
+    var up = (rayAngle < 0 || rayAngle > Math.PI);
+
+    // Only do these once?
+    var angleSin = Math.sin(rayAngle);
+    var angleCos = Math.cos(rayAngle);
+
+    var dist = 0;
+    var xHit = 0;
+    var yHit = 0;
+
+    var textureX;
+    var wallX;
+    var wallY;
+
+    // Check vertical lines
+    var slope = angleSin / angleCos;
+    var dX = right ? 1 : -1;
+    var dY = dX * slope;
+
+    var x = right ? Math.ceil(player.x) : Math.floor(player.x);
+    var y = player.y + (x - player.x) * slope;
+
+    while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+        var wallX = Math.floor(x + (right ? 0 : -1));
+        var wallY = Math.floor(y);
+
+        if (map[wallY][wallX] > 0) {
+            var distX = x - player.x;
+            var distY = y - player.y;
+            dist = (distX * distX) + (distY * distY);
+
+            textureX = y % 1;
+            if (!right) {
+                textureX = 1 - textureX;
+            }
+
+            xHit = x;
+            yHit = y;
+
+            break;
+        }
+
+        x += dX;
+        y += dY;
+    }
+
+    // Check horizontal lines
+    var slope = angleCos / angleSin;
+    var dY = up ? -1 : 1;
+    var dX = dY * slope;
+
+    var y = up ? Math.floor(player.y) : Math.ceil(player.y);
+    var x = player.x + (y - player.y) * slope;
+
+    while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+        var wallY = Math.floor(y + (up ? -1 : 0));
+        var wallX = Math.floor(x);
+
+        if (map[wallY][wallX] > 0) {
+            var distX = x - player.x;
+            var distY = y - player.y;
+            var blockDist = (distX * distX) + (distY * distY);
+
+            if (!dist || blockDist < dist) {
+                dist = blockDist;
+                xHit = x;
+                yHit = y;
+                textureX = x % 1;
+                if (up) {
+                    textureX = 1 - textureX;
+                }
+            }
+            break;
+        }
+        x += dX;
+        y += dY;
+    }
+
+    if (dist) {
+        drawRay(xHit, yHit);
+    }
+};
+
 // Set delay on init function
 setTimeout(init, 1);
