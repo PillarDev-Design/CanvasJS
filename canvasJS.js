@@ -376,5 +376,26 @@ function castSingleRay(rayAngle, stripIdx) {
     }
 };
 
+// ********************************************************
+// drayRay(rayX, rayY)
+// Called: castSingleRay(rayAngle, stripIdx)
+// ********************************************************
+function drawRay(rayX, rayY) {
+    var miniMapObjects = $("mini_map_objects");
+    var objectCtx = miniMapObjects.getContext("2d");
+
+    objectCtx.strokeStyle = "rgba(0, 100, 0, 0.3)";
+    objectCtx.lineWidth = 0.5;
+    
+    objectCtx.beginPath();
+    objectCtx.moveTo(player.x * miniMapScale, player.y * miniMapScale);
+    objectCtx.lineTo(
+        rayX * miniMapScale,
+        rayY * miniMapScale
+        );
+    objectCtx.closePath();
+    objectCtx.stroke();
+};
+
 // Set delay on init function
 setTimeout(init, 1);
