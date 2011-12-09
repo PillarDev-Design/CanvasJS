@@ -136,7 +136,8 @@ function initScreen() {
     for (var i=0; i < screenWidth; i+=stripWidth) {
         var strip = dc("div");
 
-        strip.style.backgroundColor = "magenta";
+        strip.style.backgroundColor = 'black';
+        //strip.style.backgroundColor = "magenta";
         strip.style.height = "0px";
         strip.style.left = i + "px";
         strip.style.overflow = "hidden";
