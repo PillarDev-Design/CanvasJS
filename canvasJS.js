@@ -10,7 +10,7 @@
 var $ = function(id) {
     return document.getElementById(id);
 };
-var dc = function(id) {
+var dc = function(tag) {
     return document.createElement(tag);
 };
 
@@ -47,7 +47,7 @@ var player = {
     // How far (in map units) does the player move while in motion
     moveSpeed : 0.18,
     // How much does the player rotate?
-    rotSpeed : 6 * Math.PI / 180
+    rotSpeed : 6
 }
 
 // ********************************************************
@@ -135,6 +135,7 @@ function initScreen() {
 
     for (var i=0; i < screenWidth; i+=stripWidth) {
         var strip = dc("div");
+
         strip.style.backgroundColor = "magenta";
         strip.style.height = "0px";
         strip.style.left = i + "px";
@@ -346,6 +347,7 @@ function castSingleRay(rayAngle, stripIdx) {
     var textureX;
     var wallX;
     var wallY;
+    var wallType = 0;
 
     // Check vertical lines
     var slope = angleSin / angleCos;
@@ -412,7 +414,7 @@ function castSingleRay(rayAngle, stripIdx) {
     }
 
     if (dist) {
-        var strip = screenStrips[stridIdx];
+        var strip = screenStrips[stripIdx];
         
         dist = Math.sqrt(dist);
         dist = dist * Math.cos(player.rot - rayAngle);
