@@ -412,7 +412,29 @@ function castSingleRay(rayAngle, stripIdx) {
     }
 
     if (dist) {
-        drawRay(xHit, yHit);
+        var strip = screenStrips[stridIdx];
+        
+        dist = Math.sqrt(dist);
+        dist = dist * Math.cos(player.rot - rayAngle);
+        
+        var height = Math.round(viewDist / dist);
+        var width = height * stripWidth;
+        var top = Math.round((screenHeight - height) / 2);
+
+        strip.style.height = height + "px";
+        strip.style.top = top + "px";
+
+        strip.img.style.height = Math.floor(height * numTextures) + "px";
+        strip.img.style.width = Math.floor(width * 2) + "px";
+        strip.img.style.top = -Math.floor(height * (wallType - 1)) + "px";
+
+        var texX = Math.round(textureX * width);
+
+        if (texX > width - stripWidth) {
+            texX = width - stripWidth;
+        }
+
+        strip.img.style.left = -texX + "px";
     }
 };
 
