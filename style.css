@@ -1,4 +1,4 @@
-#mini_map_container {
+div#mini_map_container {
     
 }
 canvas#mini_map {
@@ -8,14 +8,14 @@ canvas#mini_map_objects {
     position:absolute;
 }
 
-#ceiling {
+div#ceiling {
     background-color: rgb(96, 96, 96);
     height: 50%;
     position: absolute;
     width: 100%;
 }
 
-#floor {
+div#floor {
     background-color: rgb(128, 128, 128);
     height: 100%;
     position: absolute;
