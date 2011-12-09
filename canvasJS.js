@@ -20,13 +20,16 @@ var mapHeight = 0;
 var miniMapScale = 8;
 
 var screenWidth = 320;
-var stripWidth = 4;
+var screenHeight = 200;
+var stripWidth = 2;
 var fov = 60 * Math.PI / 180;
 var numRays = Math.ceil(screenWidth / stripWidth);
 var fovHalf = fov / 2;
 var viewDist = (screenWidth / 2) / Math.tan((fov / 2));
 var twoPI = Math.PI * 2;
 
+var numTextures = 4;
+var screenStrips = [];
 
 // Global Player Variables
 var player = {
@@ -44,7 +47,7 @@ var player = {
     // How far (in map units) does the player move while in motion
     moveSpeed : 0.18,
     // How much does the player rotate?
-    rotSpeed : 6
+    rotSpeed : 6 * Math.PI / 180
 }
 
 // ********************************************************
@@ -60,6 +63,9 @@ function init() {
     // Set input keys
     bindKeys();
     
+    // Initialize the screen
+    initScreen();
+
     // Draw the minimap
     drawMiniMap();
     
@@ -117,6 +123,35 @@ function bindKeys() {
                 player.dir = 0;
                 break;
         }
+    }
+};
+
+// ********************************************************
+// initScreen()
+// Called: init()
+// ********************************************************
+function initScreen() {
+    var screen = $("screen");
+
+    for (var i=0; i < screenWidth; i+=stripWidth) {
+        var strip = dc("div");
+        strip.style.backgroundColor = "magenta";
+        strip.style.height = "0px";
+        strip.style.left = i + "px";
+        strip.style.overflow = "hidden";
+        strip.style.position = "absolute";
+        strip.style.width = stripWidth + "px";
+
+        var img = new Image();
+        img.src = (window.opera ? "walls_19color.png" : "walls.png");
+        img.style.position = "absolute";
+        img.style.left = "0px";
+
+        strip.appendChild(img);
+        strip.img = img;
+
+        screenStrips.push(strip);
+        screen.appendChild(strip);
     }
 };
 
